@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>GL 통합 플래너</title>
+  <meta name="theme-color" content="#000000">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GL플래너">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #000; overflow: hidden; }
+    #app { position: fixed; inset: 0; width: 100%; height: 100%; border: 0;
+           padding-top: env(safe-area-inset-top); box-sizing: border-box; background: #f4f7f9; }
+    #loading { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+               color: #fff; font-family: 'Noto Sans KR', sans-serif; gap: 14px; }
+    #loading img { width: 88px; height: 88px; border-radius: 20px; }
+  </style>
+</head>
+<body>
+  <div id="loading"><img src="icon-192.png" alt=""><div>GL 통합 플래너 불러오는 중…</div></div>
+  <iframe id="app" title="GL 통합 플래너" allow="clipboard-write"></iframe>
+
+  <script>
+    // ▼ Apps Script 웹앱 주소(배포 → 배포 관리에 보이는 .../exec 주소)를 여기에 붙여넣으세요.
+    var EXEC_URL = 'https://script.google.com/macros/s/AKfycbzWoPPgYME4sh9uHpWJcpjFh6GRjIk6VI-G_q2dbGmEbaODFUfXBrlnzmEsfb7rXH-GyA/exec';
+
+    var frame = document.getElementById('app');
+    frame.addEventListener('load', function () {
+      var l = document.getElementById('loading');
+      if (l) l.remove();
+    });
+    frame.src = EXEC_URL;
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    }
+  </script>
+</body>
+</html>
